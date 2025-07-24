@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Checkout | ArtSpace{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="max-width: 600px;">
+    <h1 class="mb-4">Checkout</h1>
+    {% if items %}
+    <ul class="list-group mb-4">
+        {% for item in items %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>{{item.artwork.title}}</span>
+            <span>${{item.artwork.price}}</span>
+        </li>
+        {% endfor %}
+        <li class="list-group-item d-flex justify-content-between align-items-center fw-bold">
+            <span>Total</span>
+            <span>${{ total }}</span>
+        </li>
+    </ul>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success w-100">Confirm Purchase</button>
+    </form>
+    {% else %}
+    <div class="alert alert-info">Your cart is empty.</div>
+    {% endif %}
+</div>
+{% endblock %} 

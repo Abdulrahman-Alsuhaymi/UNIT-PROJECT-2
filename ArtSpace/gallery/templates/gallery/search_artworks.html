@@ -1,0 +1,65 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Search Artworks | ArtSpace{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Search Artworks</h1>
+    <form method="get" class="row g-3 mb-4 align-items-end">
+        <div class="col-md-3">
+            <label for="search" class="form-label">Title</label>
+            <input type="text" class="form-control" id="search" name="search" value="{{search}}" placeholder="Search by title...">
+        </div>
+        <div class="col-md-2">
+            <label for="category" class="form-label">Category</label>
+            <select class="form-select" id="category" name="category">
+                <option value="">All</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {% if selected_category == category.id %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="artist" class="form-label">Artist</label>
+            <select class="form-select" id="artist" name="artist">
+                <option value="">All</option>
+                {% for artist in artists %}
+                    <option value="{{artist.username}}" {% if selected_artist == artist.username %}selected{% endif %}>{{artist.username}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="order_by" class="form-label">Order By</label>
+            <select class="form-select" id="order_by" name="order_by">
+                <option value="">Default</option>
+                <option value="price" {% if order_by == 'price' %}selected{% endif %}>Price</option>
+                <option value="created_at" {% if order_by == 'created_at' %}selected{% endif %}>Newest</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Search</button>
+        </div>
+    </form>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for artwork in artworks %}
+        <div class="col">
+            <div class="card h-100">
+                <a href="{% url 'gallery:artwork_detail' artwork.id %}">
+                    <img src="{{ artwork.image.url }}" class="card-img-top" alt="{{artwork.title}}" style="object-fit:cover; height:200px;">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{% url 'gallery:artwork_detail' artwork.id %}" class="text-decoration-none text-dark">{{artwork.title}}</a>
+                    </h5>
+                    <p class="card-text">{{ artwork.description|truncatewords:10 }}</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col">
+            <div class="alert alert-info w-100">No artworks found. Try a different search.</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

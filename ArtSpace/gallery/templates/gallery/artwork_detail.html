@@ -1,0 +1,77 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ artwork.title }} | ArtSpace{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-6 position-relative">
+            <img src="{{artwork.image.url}}" class="img-fluid rounded mb-3" alt="{{ artwork.title }}">
+            <form method="post" action="{% url 'gallery:toggle_like' artwork.id %}" class="position-absolute top-0  m-2" style="z-index:2;">
+                {% csrf_token %}
+                <button type="submit" class="d-flex align-items-center justify-content-center" style="background: #fff; border: none; border-radius: 14px; padding: 2px 8px; box-shadow: none;">
+                    {% if user.is_authenticated and user in artwork.likes.all %}
+                        <span style="color:#ea1010; font-size:1.1em; font-weight: bold;">&#9825;</span>
+                    {% else %}
+                        <span style="color:#2563eb; font-size:1.1em; font-weight: bold;">&#9825;</span>
+                    {% endif %}
+                    <span class="ms-1" style="font-size:0.8em; font-weight: 500; color:#444;">{{ artwork.likes.count }}</span>
+                </button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <h2>{{artwork.title }}</h2>
+            <p>{{artwork.description}}</p>
+            <p><strong>Category:</strong> {{artwork.category.name}}</p>
+            <p><strong>Artist:</strong> {{artwork.artist.username}}</p>
+            <p><strong>Price:</strong> ${{artwork.price}}</p>
+            {% if user.is_authenticated %}
+                {% if in_wishlist %}
+                    <form method="post" action="{% url 'gallery:remove_from_wishlist' artwork.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm mt-2">Remove from Wishlist</button>
+                    </form>
+                {% else %}
+                    <form method="post" action="{% url 'gallery:add_to_wishlist' artwork.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-primary btn-sm mt-2">Add to Wishlist</button>
+                    </form>
+                {% endif %}
+                <form method="post" action="{% url 'gallery:add_to_cart' artwork.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-success btn-sm mt-2">Add to Cart</button>
+                </form>
+            {% else %}
+                <a href="{% url 'accounts:login' %}" class="btn btn-outline-secondary btn-sm mt-2">Login to add to Wishlist</a>
+                <a href="{% url 'accounts:login' %}" class="btn btn-outline-secondary btn-sm mt-2">Login to add to Cart</a>
+            {% endif %}
+        </div>
+    </div>
+    <hr>
+    <h4>Comments</h4>
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url 'gallery:add_comment' artwork.id %}" class="mb-4">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="comment-text" class="form-label">Add a comment:</label>
+                <textarea id="comment-text" name="text" rows="3" class="form-control" placeholder="Add a comment..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Comment</button>
+        </form>
+    {% else %}
+        <div class="alert alert-info">You must be <a href="{% url 'accounts:login' %}">logged in</a> to comment.</div>
+    {% endif %}
+    {% if comments %}
+        <ul class="list-group mb-4">
+            {% for comment in comments %}
+                <li class="list-group-item">
+                    <strong>{{comment.user.username}}</strong> <span class="text-muted">({{comment.created_at}})</span><br>
+                    {{comment.text}}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-muted">No comments yet.</p>
+    {% endif %}
+</div>
+{% endblock %} 

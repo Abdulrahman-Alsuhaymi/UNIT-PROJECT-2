@@ -1,0 +1,34 @@
+{% extends 'main/base.html' %}
+
+{% block title %}My Wishlist | ArtSpace{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">My Wishlist</h1>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for artwork in wishlist.artworks.all %}
+        <div class="col">
+            <div class="card h-100">
+                <a href="{% url 'gallery:artwork_detail' artwork.id %}">
+                    <img src="{{ artwork.image.url }}" class="card-img-top" alt="{{artwork.title}}" style="object-fit:cover; height:200px;">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{% url 'gallery:artwork_detail' artwork.id %}" class="text-decoration-none text-dark">{{artwork.title}}</a>
+                    </h5>
+                    <p class="card-text">{{ artwork.description|truncatewords:10 }}</p>
+                    <form method="post" action="{% url 'gallery:remove_from_wishlist' artwork.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm mt-2">Remove</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col">
+            <div class="alert alert-info w-100">Your wishlist is empty.</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 
