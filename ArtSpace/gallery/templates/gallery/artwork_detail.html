@@ -3,75 +3,126 @@
 {% block title %}{{ artwork.title }} | ArtSpace{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <div class="row">
-        <div class="col-md-6 position-relative">
-            <img src="{{artwork.image.url}}" class="img-fluid rounded mb-3" alt="{{ artwork.title }}">
-            <form method="post" action="{% url 'gallery:toggle_like' artwork.id %}" class="position-absolute top-0  m-2" style="z-index:2;">
-                {% csrf_token %}
-                <button type="submit" class="d-flex align-items-center justify-content-center" style="background: #fff; border: none; border-radius: 14px; padding: 2px 8px; box-shadow: none;">
-                    {% if user.is_authenticated and user in artwork.likes.all %}
-                        <span style="color:#ea1010; font-size:1.1em; font-weight: bold;">&#9825;</span>
-                    {% else %}
-                        <span style="color:#2563eb; font-size:1.1em; font-weight: bold;">&#9825;</span>
-                    {% endif %}
-                    <span class="ms-1" style="font-size:0.8em; font-weight: 500; color:#444;">{{ artwork.likes.count }}</span>
-                </button>
-            </form>
-        </div>
-        <div class="col-md-6">
-            <h2>{{artwork.title }}</h2>
-            <p>{{artwork.description}}</p>
-            <p><strong>Category:</strong> {{artwork.category.name}}</p>
-            <p><strong>Artist:</strong> {{artwork.artist.username}}</p>
-            <p><strong>Price:</strong> ${{artwork.price}}</p>
-            {% if user.is_authenticated %}
-                {% if in_wishlist %}
-                    <form method="post" action="{% url 'gallery:remove_from_wishlist' artwork.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger btn-sm mt-2">Remove from Wishlist</button>
-                    </form>
-                {% else %}
-                    <form method="post" action="{% url 'gallery:add_to_wishlist' artwork.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-primary btn-sm mt-2">Add to Wishlist</button>
-                    </form>
-                {% endif %}
-                <form method="post" action="{% url 'gallery:add_to_cart' artwork.id %}">
+<div class="artwork-detail-container">
+    <!-- Artwork Details Section -->
+    <div class="artwork-detail-section">
+        <div class="artwork-image-section">
+            <div class="artwork-image-container">
+                <img src="{{artwork.image.url}}" class="artwork-detail-image" alt="{{ artwork.title }}">
+                <form method="post" action="{% url 'gallery:toggle_like' artwork.id %}" class="like-button">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-success btn-sm mt-2">Add to Cart</button>
+                    <button type="submit" class="like-btn">
+                        {% if user.is_authenticated and user in artwork.likes.all %}
+                            <span class="liked">&#9825;</span>
+                        {% else %}
+                            <span class="not-liked">&#9825;</span>
+                        {% endif %}
+                        <span class="like-count">{{ artwork.likes.count }}</span>
+                    </button>
                 </form>
+            </div>
+        </div>
+        
+        <div class="artwork-info-section">
+            <div class="artwork-info-card">
+                <h1 class="artwork-detail-title">{{artwork.title}}</h1>
+                <p class="artwork-description">{{artwork.description}}</p>
+                
+                <div class="artwork-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Category:</span>
+                        <span class="meta-value">{{artwork.category.name}}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Artist:</span>
+                        <span class="meta-value">
+                            <a href="{% url 'gallery:artist_profile' artwork.artist.username %}">{{artwork.artist.username}}</a>
+                        </span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Price:</span>
+                        <span class="meta-value price">${{artwork.price}}</span>
+                    </div>
+                </div>
+                
+                <div class="action-section">
+                    {% if user.is_authenticated %}
+                        {% if in_wishlist %}
+                            <form method="post" action="{% url 'gallery:remove_from_wishlist' artwork.id %}" class="action-form">
+                                {% csrf_token %}
+                                <button type="submit" class="remove-wishlist-button">Remove from Wishlist</button>
+                            </form>
+                        {% else %}
+                            <form method="post" action="{% url 'gallery:add_to_wishlist' artwork.id %}" class="action-form">
+                                {% csrf_token %}
+                                <button type="submit" class="wishlist-button">Add to Wishlist</button>
+                            </form>
+                        {% endif %}
+                        <form method="post" action="{% url 'gallery:add_to_cart' artwork.id %}" class="action-form">
+                            {% csrf_token %}
+                            <button type="submit" class="cart-button">Add to Cart</button>
+                        </form>
+                    {% else %}
+                        <div class="login-links">
+                            <a href="{% url 'accounts:login' %}" class="login-link">Login to add to Wishlist</a>
+                            <a href="{% url 'accounts:login' %}" class="login-link">Login to add to Cart</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Comments Section -->
+    <div class="comments-section">
+        <div class="section-header">
+            <h2 class="section-title">Comments</h2>
+            <p class="section-subtitle">Share your thoughts about this artwork</p>
+        </div>
+        
+        {% if user.is_authenticated %}
+            <div class="comment-form-card">
+                <form method="post" action="{% url 'gallery:add_comment' artwork.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="comment-text" class="form-label">Add a comment:</label>
+                        <textarea id="comment-text" name="text" rows="3" class="form-control" placeholder="Share your thoughts about this artwork..."></textarea>
+                    </div>
+                    <button type="submit" class="comment-button">Add Comment</button>
+                </form>
+            </div>
+        {% else %}
+            <div class="login-prompt">
+                <div class="login-prompt-content">
+                    <span class="material-icons">comment</span>
+                    <p>You must be <a href="{% url 'accounts:login' %}">logged in</a> to comment.</p>
+                </div>
+            </div>
+        {% endif %}
+        
+        <div class="comments-list">
+            {% if comments %}
+                {% for comment in comments %}
+                    <div class="comment-card">
+                        <div class="comment-header">
+                            <strong class="comment-author">{{comment.user.username}}</strong>
+                            <span class="comment-date">{{comment.created_at}}</span>
+                        </div>
+                        <div class="comment-content">
+                            {{comment.text}}
+                        </div>
+                    </div>
+                {% endfor %}
             {% else %}
-                <a href="{% url 'accounts:login' %}" class="btn btn-outline-secondary btn-sm mt-2">Login to add to Wishlist</a>
-                <a href="{% url 'accounts:login' %}" class="btn btn-outline-secondary btn-sm mt-2">Login to add to Cart</a>
+                <div class="no-comments">
+                    <div class="empty-state">
+                        <span class="material-icons">comment</span>
+                        <h3>No Comments Yet</h3>
+                        <p>Be the first to share your thoughts about this artwork.</p>
+                    </div>
+                </div>
             {% endif %}
         </div>
     </div>
-    <hr>
-    <h4>Comments</h4>
-    {% if user.is_authenticated %}
-        <form method="post" action="{% url 'gallery:add_comment' artwork.id %}" class="mb-4">
-            {% csrf_token %}
-            <div class="mb-3">
-                <label for="comment-text" class="form-label">Add a comment:</label>
-                <textarea id="comment-text" name="text" rows="3" class="form-control" placeholder="Add a comment..."></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Comment</button>
-        </form>
-    {% else %}
-        <div class="alert alert-info">You must be <a href="{% url 'accounts:login' %}">logged in</a> to comment.</div>
-    {% endif %}
-    {% if comments %}
-        <ul class="list-group mb-4">
-            {% for comment in comments %}
-                <li class="list-group-item">
-                    <strong>{{comment.user.username}}</strong> <span class="text-muted">({{comment.created_at}})</span><br>
-                    {{comment.text}}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p class="text-muted">No comments yet.</p>
-    {% endif %}
 </div>
 {% endblock %} 

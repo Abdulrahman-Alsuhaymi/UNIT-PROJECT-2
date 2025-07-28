@@ -7,12 +7,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
     {% block extra_head %}{% endblock %}
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="{% url 'main:home_view' %}">ArtSpace</a>
+            <a class="navbar-brand fw-bold" href="{% url 'main:home_view' %}">
+                <i class="bi bi-palette me-2"></i>ArtSpace
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>

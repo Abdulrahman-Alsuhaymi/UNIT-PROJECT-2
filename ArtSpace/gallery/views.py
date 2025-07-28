@@ -11,7 +11,16 @@ from django.contrib import messages
 def gallery_view(request: HttpRequest):
     artworks = Artwork.objects.all().order_by('-created_at')
     categories = Category.objects.all()
-    return render(request, 'gallery/gallery.html', {'artworks': artworks,'categories': categories})
+    
+    category_id = request.GET.get('category', '')
+    if category_id:
+        artworks = artworks.filter(category_id=category_id)
+    
+    return render(request, 'gallery/gallery.html', {
+        'artworks': artworks,
+        'categories': categories,
+        'selected_category': category_id
+    })
 
 def artwork_detail_view(request: HttpRequest, artwork_id: int):
     artwork = Artwork.objects.get(id=artwork_id)
@@ -35,7 +44,8 @@ def artist_profile_view(request: HttpRequest, username: str):
     user = User.objects.get(username=username)
     profile = ArtistProfile.objects.get(user=user)
     artworks = Artwork.objects.filter(artist=user)
-    return render(request, 'gallery/artist_profile.html', {'profile': profile,'artworks': artworks})
+    categories = artworks.values_list('category__name', flat=True).distinct()
+    return render(request, 'gallery/artist_profile.html', {'profile': profile,'artworks': artworks,'categories': categories})
 
 def wishlist_view(request: HttpRequest):
     if not request.user.is_authenticated:

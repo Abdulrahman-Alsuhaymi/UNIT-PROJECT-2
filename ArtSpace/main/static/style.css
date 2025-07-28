@@ -1,0 +1,736 @@
+:root {
+    --primary: #4ecdc4;
+    --secondary: #45b7d1;
+    --accent: #ff6b6b;
+    --success: #96ceb4;
+    --dark: #2d3748;
+    --gray: #718096;
+    --light-gray: #f7fafc;
+    --border: #e2e8f0;
+    --shadow: rgba(0,0,0,0.08);
+    --shadow-hover: rgba(0,0,0,0.15);
+}
+
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+.navbar-brand .bi-palette {
+    background: linear-gradient(45deg, #fc6666, #50d2c9, #3eadc6, #96d0b5, #ffc955, #f192e4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 1.2em;
+}
+
+
+.navbar { box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.navbar-brand { font-size: 1.5rem; font-weight: 700; }
+.btn-primary { background-color: var(--primary); border-color: var(--primary); }
+.btn-primary:hover { background-color: var(--secondary); border-color: var(--secondary); }
+footer { margin-top: auto; }
+
+
+.home-container, .gallery-container, .artwork-detail-container, .artist-profile-container, .artists-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+.page-header, .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.page-title, .section-title, .hero-title, .artwork-detail-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+}
+
+.page-subtitle, .section-subtitle, .hero-subtitle {
+    color: var(--gray);
+    font-size: 1.1rem;
+    margin: 5;
+}
+
+
+.hero-section {
+    background: linear-gradient(100deg, var(--primary), var(--secondary));
+    border-radius: 20px;
+    padding: 4rem 2rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: white;
+}
+
+.hero-button {
+    background: white;
+    color: var(--primary);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.hero-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    color: var(--primary);
+}
+
+
+.artist-profile-card, .artwork-info-card, .comments-section, .featured-section, .artworks-section {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px var(--shadow);
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.filter-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px var(--shadow);
+}
+
+
+.artworks-grid, .artists-grid {
+    display: grid;
+    gap: 2rem;
+}
+
+.artworks-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.artists-grid { grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); }
+
+
+.artwork-card, .artist-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.artwork-card:hover, .artist-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px var(--shadow-hover);
+}
+
+.artist-card {
+    padding: 2rem;
+    text-align: center;
+}
+
+
+.artwork-image-container, .artist-image-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.artwork-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.artwork-card:hover .artwork-image { transform: scale(1.05); }
+
+.artwork-detail-image {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+.profile-image, .artist-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--primary);
+    box-shadow: 0 4px 16px rgba(78, 205, 196, 0.3);
+}
+
+.profile-placeholder, .artist-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(100deg, var(--primary), var(--secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid var(--primary);
+    box-shadow: 0 4px 16px rgba(78, 205, 196, 0.3);
+}
+
+.profile-placeholder .material-icons, .artist-placeholder .material-icons {
+    font-size: 3rem;
+    color: white;
+}
+
+
+.artwork-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.artwork-card:hover .artwork-overlay { opacity: 1; }
+
+.view-details {
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid white;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.view-details:hover {
+    background: white;
+    color: var(--dark);
+}
+
+
+.like-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.like-btn {
+    background: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0.25rem 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+.like-btn:hover { transform: scale(1.1); }
+.liked { color: #da0f0f; font-size: 1.2rem; font-weight: bold; }
+.not-liked { color: #2563eb; font-size: 1.2rem; font-weight: bold; }
+.like-count { font-size: 0.9rem; font-weight: 500; color: #444; }
+
+
+.artwork-details, .artist-info {
+    padding: 1.5rem;
+}
+
+.artwork-title, .artist-name {
+    margin-bottom: 0.5rem;
+}
+
+.artwork-title a, .artist-name a {
+    color: var(--dark);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: color 0.2s ease;
+}
+
+.artwork-title a:hover, .artist-name a:hover { color: var(--primary); }
+
+.artwork-category {
+    color: var(--primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.artwork-price {
+    color: var(--accent);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.artwork-artist {
+    margin-bottom: 0.5rem;
+}
+
+.artwork-artist a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+.artwork-artist a:hover { color: var(--primary); }
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.profile-info { flex: 1; }
+
+
+.stat {
+    color: var(--gray);
+    font-size: 0.95rem;
+}
+
+
+.profile-bio {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: linear-gradient(100deg, var(--light-gray), #e0e5eb);
+    border-radius: 12px;
+    border-left: 4px solid var(--primary);
+}
+
+.profile-bio p {
+    color: #4a5568;
+    line-height: 1.7;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.artist-bio p {
+    color: #4a5568;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+
+.category-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.category-badge {
+    background: linear-gradient(130deg, var(--primary), var(--secondary));
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(78, 211, 202, 0.3);
+    transition: transform 0.2s ease;
+}
+
+.category-badge:hover { transform: translateY(-2px); }
+
+
+.tag-filter { margin-bottom: 2rem; }
+
+.tag-badge {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.tag-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.tag-badge.active {
+    background-color: var(--primary) !important;
+    border-color: var(--primary);
+}
+
+.tag-badge:not(.active) {
+    background-color: #6c757d !important;
+    border-color: #6c757d;
+}
+
+.tag-badge:not(.active):hover {
+    background-color: var(--secondary) !important;
+    border-color: var(--secondary);
+}
+ 
+
+.search-button, .comment-button {
+    background: var(--primary);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.search-button:hover, .comment-button:hover {
+    background: var(--secondary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.wishlist-button, .cart-button {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.wishlist-button {
+    background: var(--primary);
+    color: white;
+}
+
+.wishlist-button:hover { background: var(--secondary); }
+
+.cart-button {
+    background: var(--success);
+    color: white;
+}
+
+.cart-button:hover { background: #7fb069; }
+
+.remove-wishlist-button {
+    background: #e53e3e;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.remove-wishlist-button:hover { background: #c53030; }
+
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.action-form {
+    flex: 1;
+    min-width: 120px;
+}
+
+.action-section {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+
+.login-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.login-link {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.login-link:hover {
+    background: var(--light-gray);
+    color: var(--primary);
+}
+
+
+.artwork-detail-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.artwork-info-section {
+    display: flex;
+    align-items: flex-start;
+}
+
+.artwork-info-card { width: 100%; }
+
+.artwork-description {
+    color: #4a5568;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.artwork-meta {
+    margin-bottom: 2rem;
+}
+
+.meta-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.meta-item:last-child { border-bottom: none; }
+
+.meta-label {
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.meta-value {
+    color: var(--dark);
+}
+
+.meta-value a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.meta-value a:hover { color: var(--secondary); }
+
+.meta-value.price {
+    color: var(--accent);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+
+.comment-form-card {
+    background: var(--light-gray);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border);
+}
+
+.form-group { margin-bottom: 1rem; }
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+}
+
+.login-prompt {
+    background: var(--light-gray);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    border: 1px solid var(--border);
+}
+
+.login-prompt-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.login-prompt-content .material-icons {
+    font-size: 3rem;
+    color: #a0aec0;
+}
+
+.login-prompt-content p {
+    color: #4a5568;
+    margin: 0;
+}
+
+.login-prompt-content a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-prompt-content a:hover { color: var(--secondary); }
+
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.comment-card {
+    background: var(--light-gray);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.comment-author {
+    color: var(--dark);
+    font-size: 1rem;
+}
+
+.comment-date {
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.comment-content {
+    color: #4a5568;
+    line-height: 1.5;
+}
+
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--gray);
+}
+
+.empty-state .material-icons {
+    font-size: 4rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+}
+
+.no-artworks, .no-artists, .no-comments {
+    grid-column: 1 / -1;
+}
+
+.no-comments {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+
+@media (max-width: 768px) {
+    .hero-title, .page-title, .section-title, .artwork-detail-title { font-size: 2rem; }
+    .hero-subtitle, .page-subtitle, .section-subtitle { font-size: 1.1rem; }
+    
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .artist-stats { justify-content: center; }
+    
+    .artworks-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+    .artists-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+    
+    .artwork-detail-section {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .artwork-detail-image { height: 350px; }
+    .artwork-image { height: 200px; }
+    
+    .filter-section {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .action-buttons, .action-section {
+        flex-direction: column;
+    }
+    
+    .action-form { min-width: auto; }
+    
+    .meta-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+    
+    .profile-bio, .artist-card { padding: 1rem; }
+    
+    .profile-image, .artist-image, .profile-placeholder, .artist-placeholder {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .profile-placeholder .material-icons, .artist-placeholder .material-icons {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section { padding: 2rem 1rem; }
+    .hero-title, .page-title, .section-title, .artwork-detail-title { font-size: 1.75rem; }
+    .artwork-detail-image { height: 250px; }
+    .artwork-info-card, .comments-section { padding: 1.5rem; }
+    .artists-grid { grid-template-columns: 1fr; gap: 1rem; }
+}
+
+
+
+
+
+ 

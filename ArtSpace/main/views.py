@@ -2,13 +2,14 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
 from django.contrib import messages
 from accounts.models import ArtistProfile
-from gallery.models import Artwork
+from gallery.models import Artwork, Category
 
 # Create your views here.
 
 def home_view(request: HttpRequest):
     artworks = Artwork.objects.all().order_by('-created_at')[:6]
-    return render(request, 'main/home.html', {'artworks': artworks})
+    categories = Category.objects.all()
+    return render(request, 'main/home.html', {'artworks': artworks, 'categories': categories})
 
 
 def artists_list_view(request: HttpRequest):

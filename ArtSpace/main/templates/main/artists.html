@@ -4,33 +4,51 @@
 
 {% block content %}
 <div class="container py-5">
-    <h1 class="mb-4">Artists</h1>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        {% for artist in artists %}
-        <div class="col">
-            <div class="card h-100 text-center">
-                {% if artist.profile_pic %}
-                    <img src="{{artist.profile_pic.url}}" class="img-fluid rounded-circle mt-3" style="width:80px; height:80px; object-fit:cover;" alt="{{artist.user.username}}">
-                {% else %}
-                    <div class="d-flex justify-content-center align-items-center bg-secondary text-white rounded-circle mb-3" style="width:80px; height:80px;">
-                        <span class="material-icons" style="font-size:60px;">person</span>
-                    </div>
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <a href="{% url 'gallery:artist_profile' artist.user.username %}" class="text-decoration-none text-dark">
+    <div class="artists-container">
+        <div class="page-header">
+            <h1 class="page-title">Artists</h1>
+            <p class="page-subtitle">Discover talented artists and their creative journeys</p>
+        </div>
+
+        <div class="artists-grid">
+            {% for artist in artists %}
+            <div class="artist-card">
+                <div class="artist-image-container">
+                    {% if artist.profile_pic %}
+                        <img src="{{artist.profile_pic.url}}" class="artist-image" alt="{{artist.user.username}}">
+                    {% else %}
+                        <div class="artist-placeholder">
+                            <span class="material-icons">person</span>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="artist-info">
+                    <h3 class="artist-name">
+                        <a href="{% url 'gallery:artist_profile' artist.user.username %}">
                             {{artist.user.username}}
                         </a>
-                    </h5>
-                    <p class="card-text text-muted">{{artist.bio|truncatewords:15}}</p>
+                    </h3>
+                    <div class="artist-bio">
+                        {% if artist.bio %}
+                            <p>{{artist.bio|truncatewords:20}}</p>
+                        {% endif %}
+                    </div>
+                    <div class="artist-stats">
+                        <span class="stat">
+                            <strong>{{artist.user.artworks.count}}</strong> artworks
+                        </span>
+                    </div>
                 </div>
             </div>
+            {% empty %}
+            <div class="no-artists">
+                <div class="empty-state">
+                    <span class="material-icons">people</span>
+                    <h3>No Artists Found</h3>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        {% empty %}
-        <div class="col">
-            <div class="alert alert-info w-100">No artists found.</div>
-        </div>
-        {% endfor %}
     </div>
 </div>
 {% endblock %} 

@@ -3,39 +3,57 @@
 {% block title %}Home | ArtSpace{% endblock %}
 
 {% block content %}
-<div class="text-center py-5">
-    <h1 class="display-4">Welcome to ArtSpace</h1>
-    <p class="lead">Discover & Support Independent Artists</p>
-    <a href="{% url 'gallery:gallery_view' %}" class="btn btn-primary btn-lg mt-3">Browse Gallery</a>
-</div>
+<div class="home-container">
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Welcome to ArtSpace</h1>
+            <p class="hero-subtitle">Discover & Support Independent Artists</p>
+            <a href="{% url 'gallery:gallery_view' %}" class="hero-button">Browse Gallery</a>
+        </div>
+    </div>
 
-<div class="container py-4">
-    <h2 class="mb-4 text-center">Featured Artworks</h2>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        {% for artwork in artworks %}
-        <div class="col">
-            <div class="card h-100">
-                <a href="{% url 'gallery:artwork_detail' artwork.id %}">
-                    <img src="{{artwork.image.url}}" class="card-img-top" alt="{{artwork.title}}" style="object-fit:cover; height:200px;">
-                </a>
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <a href="{% url 'gallery:artwork_detail' artwork.id %}" class="text-decoration-none text-dark">{{artwork.title}}</a>
+    <div class="featured-section">
+        <div class="section-header">
+            <h2 class="section-title">Featured Artworks</h2>
+            <p class="section-subtitle">Explore our collection of exceptional pieces</p>
+        </div>
+        <div class="artworks-grid">
+            {% for artwork in artworks %}
+            <div class="artwork-card">
+                <div class="artwork-image-container">
+                    <a href="{% url 'gallery:artwork_detail' artwork.id %}">
+                        <img src="{{artwork.image.url}}" class="artwork-image" alt="{{artwork.title}}">
+                    </a>
+                    <div class="artwork-overlay">
+                        <a href="{% url 'gallery:artwork_detail' artwork.id %}" class="view-details">View Details</a>
+                    </div>
+                </div>
+                <div class="artwork-details">
+                    <h5 class="artwork-title">
+                        <a href="{% url 'gallery:artwork_detail' artwork.id %}">{{artwork.title}}</a>
                     </h5>
-                    <p class="card-text">{{artwork.description|truncatewords:10}}</p>
-                    <p class="mb-1"><strong>Price:</strong> ${{artwork.price}}</p>
+                    <p class="artwork-category">{{artwork.category.name}}</p>
+                    <p class="artwork-price">${{artwork.price}}</p>
                     {% if user.is_authenticated %}
-                        <form method="post" action="{% url 'gallery:add_to_wishlist' artwork.id %}">
+                        <form method="post" action="{% url 'gallery:add_to_wishlist' artwork.id %}" class="wishlist-form">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-primary btn-sm mt-2">Add to Wishlist</button>
+                            <button type="submit" class="wishlist-button">Add to Wishlist</button>
                         </form>
                     {% else %}
-                        <a href="{% url 'accounts:login' %}" class="btn btn-outline-secondary btn-sm mt-2">Login to add to Wishlist</a>
+                        <a href="{% url 'accounts:login' %}" class="login-link">Login to add to Wishlist</a>
                     {% endif %}
                 </div>
             </div>
+            {% empty %}
+            <div class="no-artworks">
+                <div class="empty-state">
+                    <span class="material-icons">palette</span>
+                    <h3>No Featured Artworks</h3>
+                    <p>No artworks are currently featured.</p>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 </div>
 {% endblock %} 

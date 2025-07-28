@@ -4,40 +4,73 @@
 
 {% block content %}
 <div class="container py-5">
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="bg-light rounded p-3 h-100 text-center">
+    <div class="artist-profile-container">
+        <div class="artist-profile-card">
+            <div class="profile-header">
                 {% if profile.profile_pic %}
-                    <img src="{{ profile.profile_pic.url }}" class="img-fluid rounded-circle mb-3" style="width:120px; height:120px; object-fit:cover;" alt="{{profile.user.username}}">
+                    <img src="{{ profile.profile_pic.url }}" class="profile-image" alt="{{profile.user.username}}">
                 {% else %}
-                    <div class="d-flex justify-content-center align-items-center bg-secondary text-white rounded-circle mb-3" style="width:120px; height:120px;">
-                        <span class="material-icons" style="font-size:60px;">person</span>
+                    <div class="profile-placeholder">
+                        <span class="material-icons">person</span>
                     </div>
                 {% endif %}
-                <h2>{{profile.user.username}}</h2>
-                <p class="text-muted">{{profile.bio}}</p>
+                <div class="profile-info">
+                    <h1 class="artist-name">{{profile.user.username}}</h1>
+                    <div class="artist-stats">
+                        <span class="stat">
+                            <strong>{{artworks.count}}</strong> artworks
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-bio">
+                {% if profile.bio %}
+                    <p>{{profile.bio}}</p>
+                {% endif %}
+            </div>
+            <div class="artist-categories">
+                <h4>Art Categories</h4>
+                <div class="category-badges">
+                    {% for category in categories %}
+                        <span class="category-badge">{{category}}</span>
+                    {% empty %}
+                        <span class="category-badge">Mixed Media</span>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-        <div class="col-md-9">
-            <h4>Artworks by {{profile.user.username}}</h4>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        <div class="artworks-section">
+            <div class="section-header">
+                <h2>Artworks by {{profile.user.username}}</h2>
+                <p class="section-subtitle">Discover the artist's creative journey</p>
+            </div>
+            <div class="artworks-grid">
                 {% for artwork in artworks %}
-                <div class="col">
-                    <div class="card h-100">
+                <div class="artwork-card">
+                    <div class="artwork-image-container">
                         <a href="{% url 'gallery:artwork_detail' artwork.id %}">
-                            <img src="{{ artwork.image.url }}" class="card-img-top" alt="{{ artwork.title }}" style="object-fit:cover; height:200px;">
+                            <img src="{{ artwork.image.url }}" class="artwork-image" alt="{{ artwork.title }}">
                         </a>
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <a href="{% url 'gallery:artwork_detail' artwork.id %}" class="text-decoration-none text-dark">{{artwork.title}}</a>
-                            </h5>
-                            <p class="card-text">{{ artwork.description|truncatewords:10 }}</p>
+                        <div class="artwork-overlay">
+                            <a href="{% url 'gallery:artwork_detail' artwork.id %}" class="view-details">View Details</a>
                         </div>
+                    </div>
+                    <div class="artwork-details">
+                        <h5 class="artwork-title">
+                            <a href="{% url 'gallery:artwork_detail' artwork.id %}">{{artwork.title}}</a>
+                        </h5>
+                        <p class="artwork-category">{{artwork.category.name}}</p>
+                        <p class="artwork-price">${{artwork.price}}</p>
                     </div>
                 </div>
                 {% empty %}
-                <div class="col">
-                    <div class="alert alert-info w-100">No artworks yet.</div>
+                <div class="no-artworks">
+                    <div class="empty-state">
+                        <span class="material-icons">palette</span>
+                        <h3>No Artworks Yet</h3>
+                        <p>This artist hasn't uploaded any artworks yet.</p>
+                    </div>
                 </div>
                 {% endfor %}
             </div>
