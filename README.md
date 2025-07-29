@@ -1,3 +1,51 @@
+# ArtSpace
+
+## Project Description
+ArtSpace is a comprehensive Django-based online art gallery platform that connects artists with art enthusiasts. The platform allows users to browse, purchase, and interact with art pieces through comments, likes, and wishlists.
+
+## Features
+
+**Artwork Management**
+- Upload and showcase artwork with detailed descriptions(admin)
+- Categorize artwork by type (Classical, Modern, etc.)
+- Set pricing and manage artwork inventory(admin)
+- Artist information
+
+**User Management**
+- User registration and authentication system
+- Artist profiles with bio and profile pictures
+- Secure login/logout functionality
+
+**E-commerce Features**
+- Shopping cart system for artwork purchases
+- Wishlist functionality to save favorite pieces
+- Checkout process for completing purchases
+
+**Social Features**
+- Comment system on artwork pieces
+- Like/Dislike functionality for artworks
+- User interaction and engagement
+- Artist profile pages with portfolio display
+
+**Search & Discovery**
+- Advanced search functionality
+- Filter artwork by category, artist, price, and tags
+- Browse artwork by different categories
+
+**Responsive Design**
+- Mobile-friendly responsive design
+- Optimized for all screen sizes
+- Modern, intuitive user interface
+- Bootstrap-based styling
+
+---
+**UML**
+//www.plantuml.com/plantuml/png/ZLBBRjim4BphAzYR3UIG53q9A936hO6WA58WBdeKrkJQtfeFTRcgunRvzzAc0bci2qS7YU3CB6U6keq2B9sprHlPe4FLMY1VnItv5XYSMeBUhZbqtio23Qns6n8ymRM56EzUHGfia3DXQPEY9Co3bqVwZUhctLb8zXRLCbXJLKAIrXzO7blGM5L7aleMaTMVIgMdIqiF3cirsm3F2QqvxgC3ihNwTFWCksrIxvAzahqYZjAScsFXFm351hJGhmJSXM0H_0YB0glL6SY0OFCZaCTauYC8BiXXXf_xU8Uu5EKhXnLPFCbPgmUFY_3Wis1og65wH9SKQhN09pc9ckLDIxfMzmxMvIap45m7tlS751adDzVNLwhpzBF3zmlkS3hobqhSza8XiQKokp8ODLCh57pfZWw6HhwoPzAOQa6TSFioxUfj7gTxmxMQ1qPQ-y-udxoao1GuDZSY32LfHX0q3KZH_0Gw2OqFkmQCoLnBMuor-W9-lmY7zsdZGuN1EVJI5m6vbj7fVLNJuGxFUnDyahAZL_eTx7odkB4KvV8lCxZzD-JWUSW9V6bemRuNTBr20qjnPIpJouqzLxVeJUViNm00
+
+**Wireframe**
+https://www.figma.com/design/rC9L5oI3kCy1F3AFPvgUyC/Untitled?node-id=0-1&t=U5t5bF9JwAfUIzvW-1
+---
+
 # UNIT-PROJECT-2
 
 ## Create a Project of your own choosing
