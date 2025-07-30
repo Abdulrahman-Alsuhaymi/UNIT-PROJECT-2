@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-_rcs^4#5$%2*&h7@^y#b%!8jcn17uld%#y4)(g86_2#^mkqo(%
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ["https://artspacea.up.railway.app/", "http://127.0.0.1"]
+CSRF_TRUSTED_ORIGINS = ["https://artspacea.up.railway.app", "http://127.0.0.1"]
 
 
 # Application definition
